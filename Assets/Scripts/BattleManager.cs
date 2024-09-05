@@ -137,6 +137,7 @@ public class BattleManager : MonoBehaviour
         enemyHealth -= damage;
         Debug.Log($"Ataque: {card.cardName} inflige {damage} de daño. Salud del enemigo: {enemyHealth}");
 
+        
         // Aquí podrías actualizar la UI para mostrar la salud del enemigo.
     }
 
