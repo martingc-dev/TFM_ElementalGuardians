@@ -15,6 +15,9 @@ public class UIManager : MonoBehaviour
     public GameObject cardPrefab;
     //Texto para mostrat la energia del juagdor
     public TMP_Text energyText;
+    // Nueva referencia para el Slider de salud
+    public Slider healthSlider;
+
 
 
 
@@ -24,6 +27,7 @@ public class UIManager : MonoBehaviour
         // Actualiza la UI al inicio del juego
         UpdateHandUI();
         UpdateEnergyUI();
+        UpdateHealthUI(); // Asegúrate de actualizar la barra de vida al inicio
     }
 
     /// <summary>
@@ -90,5 +94,29 @@ public class UIManager : MonoBehaviour
         }
     }
 
-   
+
+    /// <summary>
+    /// Metodo que actualiza la barra de vida del jugador
+    /// </summary>
+    public void UpdateHealthUI()
+    {
+        if (healthSlider != null && battleManager != null && battleManager.playerDeck != null)
+        {
+            Character playerCharacter = battleManager.playerDeck.GetPlayerCharacter();
+            if (playerCharacter != null)
+            {
+                healthSlider.maxValue = playerCharacter.GetMaxHealth();
+                healthSlider.value = playerCharacter.GetCurrentHealth();
+            }
+            else
+            {
+                Debug.LogWarning("PlayerCharacter no está asignado en BattleManager.");
+            }
+        }
+        else
+        {
+            Debug.LogWarning("healthSlider o battleManager no están asignados en UIManager.");
+        }
+    }
+
 }

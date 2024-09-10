@@ -7,6 +7,10 @@ public class Character : MonoBehaviour
     //Lista de efectos de estao apllicado a este personaje (jugadro o enemigo)
     public List<StatusEffect> statusEffects = new List<StatusEffect>();
 
+    //Salud 
+    public int health = 50;
+    public int maxHealth = 50; // Añadir una variable para la salud máxima
+
     /// <summary>
     /// metodo para aplicar un nuevo efecto de estado
     /// </summary>
@@ -85,8 +89,29 @@ public class Character : MonoBehaviour
     /// <param name="damage"></param>
     public void ReceiveDamage(int damage)
     {
-        // Lógica para reducir la salud del personaje (a implementar)
-        Debug.Log($"{gameObject.name} recibe {damage} de daño.");
+        // Reduce la salud del personaje
+        health -= damage;
+        // Asegúrate de que la salud no baje de 0
+        if (health < 0) health = 0;
+        Debug.Log($"{gameObject.name} recibe {damage} de daño. Salud restante: {health}");
+
+        // Actualiza la barra de salud en la UI si es necesario
+        UIManager uiManager = FindObjectOfType<UIManager>();
+        if (uiManager != null)
+        {
+            uiManager.UpdateHealthUI();
+        }
+    }
+
+    // Métodos para obtener la salud actual y la salud máxima
+    public int GetCurrentHealth()
+    {
+        return health;
+    }
+
+    public int GetMaxHealth()
+    {
+        return maxHealth;
     }
 
 }

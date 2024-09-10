@@ -13,6 +13,14 @@ public class Deck : MonoBehaviour
     //Tamaño maximo de la mano del jugador
     public int handSize = 5;
 
+    public Character playerCharacter;
+
+    public Character GetPlayerCharacter()
+    {
+        return playerCharacter;
+    }
+
+
     /// <summary>
     /// Metodo que nicializa el mazo mezclando las cartas
     /// </summary>

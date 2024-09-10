@@ -4,6 +4,7 @@ using UnityEditor.EditorTools;
 using UnityEngine;
 using TMPro;
 
+
 public class BattleManager : MonoBehaviour
 {
     //Referencia al mazo del jugador
@@ -15,8 +16,15 @@ public class BattleManager : MonoBehaviour
     //Energia actual del jugador
     public int currentEnergy;
     public TMP_Text energyText;
+    //texto para indicar el turno
+    public TMP_Text turnIndicatorText;
+    
 
     public UIManager uiManager;
+    //Referencia al enemigo
+    public Enemy enemy;
+
+    
 
     //Salud del enemigo
     public int enemyHealth = 30;
@@ -57,6 +65,9 @@ public class BattleManager : MonoBehaviour
         playerDeck.DiscardHand();
         //Roba ua nueva mano
         DrawHand();
+
+        // Actualizar el texto para indicar que es el turno del jugador
+        turnIndicatorText.text = "Turno del Jugador";
     }
 
     /// <summary>
@@ -124,6 +135,13 @@ public class BattleManager : MonoBehaviour
                 Debug.LogWarning("Tipo de carta desconocido.");
                 break;
         }
+
+        // Aplicar efectos de estado si la carta tiene uno
+        if (card.effectType != StatusEffect.EffectType.None)
+        {
+            StatusEffect effect = new StatusEffect(card.effectType, card.GetCardEffectAmount(), card.effectDuration);
+            enemy.ApplyStatusEffect(effect);
+        }
     }
 
     /// <summary>
@@ -134,10 +152,10 @@ public class BattleManager : MonoBehaviour
     {
         
         int damage = card.GetCardEffectAmount();
-        enemyHealth -= damage;
+        enemy.ReceiveDamage(damage);
         Debug.Log($"Ataque: {card.cardName} inflige {damage} de daño. Salud del enemigo: {enemyHealth}");
 
-        
+       
         // Aquí podrías actualizar la UI para mostrar la salud del enemigo.
     }
 
@@ -155,6 +173,7 @@ public class BattleManager : MonoBehaviour
         {
             // Efecto específico para cartas de fuego
             Debug.Log("Efecto de fuego aplicado.");
+            
         }
         // Añadir más lógica según la clase y tipo de habilidad
     }
@@ -168,19 +187,46 @@ public class BattleManager : MonoBehaviour
         // Ejemplo de efectos persistentes o modificadores
     }
 
-    private void ApplyDebuff(Card card)
-    {
-        // Aplicar debuffs a enemigos o al jugador
-        Debug.Log($"Debuff aplicado por {card.cardName}.");
-    }
+    //private void ApplyDebuff(Card card)
+    //{
+    //    // Aplicar debuffs a enemigos o al jugador
+    //    Debug.Log($"Debuff aplicado por {card.cardName}.");
+    //}
+
+   
 
     /// <summary>
     /// Metodo para finalizar el turno del juagdor
     /// </summary>
     public void EndTurn()
     {
-        // Al final del turno, podemos implementar efectos de fin de turno, etc.
-        // Por ahora, simplemente comienza un nuevo turno.
+
+        if (enemy != null)
+        {
+            enemy.ProcessStatusEffects(); // Procesar efectos de estado del enemigo
+            Character playerCharacter = playerDeck.GetPlayerCharacter();
+            if (playerCharacter != null)
+            {
+                enemy.AttackPlayer(playerCharacter); // Atacar al jugador
+            }
+            else
+            {
+                Debug.LogError("PlayerCharacter is null in EndTurn method.");
+            }
+        }
+        else
+        {
+            Debug.LogError("Enemy is null in EndTurn method.");
+        }
+
+        // Actualiza la interfaz de usuario después de que el jugador reciba daño
+        if (uiManager != null)
+        {
+            uiManager.UpdateHealthUI();
+            uiManager.UpdateEnergyUI();  // Actualiza la energía si es necesario
+        }
+
+        // Comienza un nuevo turno
         StartTurn();
     }
 
@@ -196,7 +242,7 @@ public class BattleManager : MonoBehaviour
         else
         {
             Debug.LogWarning("uiManager no está asignado en BattleManager.");
-        }
+        } 
         Debug.Log("Mano actualizada.");
     }
 

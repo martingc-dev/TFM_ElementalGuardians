@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class StatusEffect 
 {
-    public enum EffectType { Vulnerable, Weak, Burn, Shield, Posion}
+    public enum EffectType { None,Vulnerable, Weak, Burn, Shield, Posion}
     public EffectType effectType;
     //Puede ser dalo extra, reduccion...
     public int value;

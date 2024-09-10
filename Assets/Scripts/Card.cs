@@ -13,6 +13,8 @@ public class Card : ScriptableObject
     public CardAmount buffAmount; // Referencia a la cantidad de mejora que aplica la carta
     public Sprite cardImage; //Refereencia a la imagen de la carta
     public CardType cardType; //Referencia la tipo de carta
+    public StatusEffect.EffectType effectType; // Efecto de estado que aplica la carta
+    public int effectDuration; // Duración del efecto
     //Enumeracion que define los tipos de cartas
     public enum CardType
     {
@@ -36,6 +38,9 @@ public class Card : ScriptableObject
         self,
         enemy
     }
+
+    // Agregar tipo de efecto de estado para la carta
+    public StatusEffect.EffectType cardEffectType;
 
     /// <summary>
     /// Devuelve el valor del coste de la carta segun si esta mejorada o no
@@ -73,6 +78,20 @@ public class Card : ScriptableObject
         return isUpgraded ? buffAmount.upgradedAmount : buffAmount.baseAmount;
     }
 
+    /// <summary>
+    /// MEtodo que aplica el efecto de eatdo de la carta a un objetivo
+    /// </summary>
+    /// <param name="target"></param>
+    public void ApplyStatusEffect(Character target)
+    {
+        if(effectType!= StatusEffect.EffectType.None)
+        {
+            StatusEffect newEffect = new StatusEffect(effectType, GetCardEffectAmount(), effectDuration);
+            target.ApplyStatusEffect(newEffect);
+            Debug.Log($"{cardName} aplicó {effectType} a {target.name} durante {effectDuration} turnos.");
+        }
+    }
+
     //Estructura para lamacenar cantidades base y mejoradas (para costos, efectos,etc.)
     [System.Serializable]
     public struct CardAmount
@@ -89,12 +108,12 @@ public class Card : ScriptableObject
         public string upgradedAmount;//Descripcion mejorada
     }
 
-    //Estructura que define un buff, con tipo y cantidad
-    [System.Serializable]
-    public struct CardBuffs
-    {
-        //public Buff.Type buffType; //Tipo de mejora que aplica la carta
-        public CardAmount buffAmount; //Cantidad de mejora, con valores base y mejorados
-    }
+    ////Estructura que define un buff, con tipo y cantidad
+    //[System.Serializable]
+    //public struct CardBuffs
+    //{
+    //    //public Buff.Type buffType; //Tipo de mejora que aplica la carta
+    //    public CardAmount buffAmount; //Cantidad de mejora, con valores base y mejorados
+    //}
 
 }
