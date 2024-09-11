@@ -25,7 +25,7 @@ public class GameManager : MonoBehaviour
         
 
         // Asignar la función del botón
-        endTurnButton.onClick.AddListener(EndTurn);       
+        ///endTurnButton.onClick.AddListener(EndTurn);       
 
         // Mostrar las cartas en la mano
         DisplayHand();

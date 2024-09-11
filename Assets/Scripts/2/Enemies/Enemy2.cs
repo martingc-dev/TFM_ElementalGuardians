@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System.Data;
 
 public class Enemy2 : MonoBehaviour
 {
@@ -20,6 +21,12 @@ public class Enemy2 : MonoBehaviour
 
 
     public int damage = 10;  // Daño que el enemigo inflige
+    public bool isDefeated = false;
+    public string enemyName;
+
+    private int burnDamage;
+    public int burnTurns;
+    public bool isBurned = false;
 
 
     // Start is called before the first frame update
@@ -29,14 +36,14 @@ public class Enemy2 : MonoBehaviour
         UpdateStatusIcons();
     }
 
-    public void AttackPlayer(PlayerEnergy player)
+    public virtual void AttackPlayer(PlayerEnergy player)
     {
         player.ReceiveDamage(damage);
     }
 
 
     // Método para recibir daño
-    public void TakeDamage(int amount)
+    public virtual void TakeDamage(int amount)
     {
         int damageAfterVulnerability = isVulnerable ? Mathf.RoundToInt(amount * 1.5f) : amount;
         health -= damageAfterVulnerability;
@@ -58,6 +65,26 @@ public class Enemy2 : MonoBehaviour
         isVulnerable = true;
         Debug.Log("Enemy is now vulnerable.");
         UpdateStatusIcons();
+    }
+
+    public void ApplyBurn(int damage, int turns)
+    {
+        isBurned = true;
+        burnDamage = damage;
+        burnTurns = turns;
+        StartCoroutine(ApplyBurnOverTime());
+    }
+
+    private IEnumerator ApplyBurnOverTime()
+    {
+        while (burnTurns > 0)
+        {
+            yield return new WaitForSeconds(1f); // Espera un turno (un segundo para este ejemplo)
+            health -= burnDamage;
+            burnTurns--;
+
+            Debug.Log("Burn tick: " + burnDamage + " damage. Remaining health: " + health);
+        }
     }
 
     // Método para aplicar un efecto
@@ -116,9 +143,10 @@ public class Enemy2 : MonoBehaviour
     }
 
     // Método cuando el enemigo muere
-    void Die()
+    public virtual void Die()
     {
         Debug.Log("Enemy defeated!");
+        isDefeated = true;
         Destroy(gameObject); // Destruye al enemigo cuando su vida llega a 0
     }
 }

@@ -18,6 +18,13 @@ public class Cards : ScriptableObject
         Attack,
         Defense,
         Skill,
-        Vulnerable
+        Vulnerable,
+        Burn
+    }
+
+    // Método virtual que se sobreescribirá en cartas específicas
+    public virtual void Play(PlayerEnergy player, List<Enemy2> enemies)
+    {
+        Debug.Log("Playing card: " + cardName);
     }
 }
