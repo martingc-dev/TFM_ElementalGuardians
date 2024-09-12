@@ -4,6 +4,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using static UnityEngine.GraphicsBuffer;
 
 public class CardDisplay : MonoBehaviour
 {
@@ -15,6 +16,7 @@ public class CardDisplay : MonoBehaviour
     private PlayerEnergy playerEnergy;
     private Enemy2 enemy;         // Referencia al enemigo
     public Effects VulnerableEffect;
+    public Effects burnEffect;
 
     public bool areaAttackCard = false;
 
@@ -61,7 +63,10 @@ public class CardDisplay : MonoBehaviour
                     Debug.Log("Applied vulnerable to enemy.");
                     break;
                 case Cards.CardType.Burn:
-                    enemy.ApplyBurn(10,cards.effectValue);
+                    enemy.ApplyEffect(burnEffect);
+                    enemy.isBurned = true;
+                    //ApplyEffectUI(Effects.EffectType.Burn);
+                    //enemy.ApplyBurn(10,cards.effectValue);
                     Debug.Log("Applied Burn to enemy.");
                     break;
                 
@@ -73,5 +78,10 @@ public class CardDisplay : MonoBehaviour
         {
             Debug.Log("Not enough energy to play this card.");
         }
+    }
+
+    private void ApplyEffectUI(Effects.EffectType type)
+    {
+        //enemy.DisplayEffectUI(type, cards.effectValue);
     }
 }

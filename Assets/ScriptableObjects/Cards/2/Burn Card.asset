@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6cfc5b141d006546a5c86bb6530430d, type: 3}
   m_Name: Burn Card
   m_EditorClassIdentifier: 
-  cardName: 
-  description: 
-  energyCost: 0
-  cardType: 0
-  effectValue: 0
-  burnDamage: 0
+  cardName: Burn
+  description: Burn Enemy
+  energyCost: 1
+  cardType: 4
+  effectValue: 3
+  burnDamage: 10
   turns: 0

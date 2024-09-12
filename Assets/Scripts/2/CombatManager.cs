@@ -38,6 +38,7 @@ public class CombatManager : MonoBehaviour
         foreach (Enemy2 enemy in enemies)
         {
             enemy.AttackPlayer(player);  // Cada enemigo ataca al jugador
+            enemy.OnTurnStart();
         }
         EndEnemyTurn();
     }

@@ -325,6 +325,84 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 34521972}
   m_CullTransparentMesh: 1
+--- !u!1 &314006769
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 314006770}
+  m_Layer: 0
+  m_Name: EffectDisplay
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &314006770
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 314006769}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 418, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2105825885}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &371783820
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 371783822}
+  - component: {fileID: 371783821}
+  m_Layer: 0
+  m_Name: CombatManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &371783821
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 371783820}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a3bb8907f3f63d04cb7ebcc70b74a62c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 856024828}
+  enemies:
+  - {fileID: 2105825884}
+--- !u!4 &371783822
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 371783820}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &429465782
 GameObject:
   m_ObjectHideFlags: 0
@@ -673,13 +751,13 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2105825884}
-        m_TargetAssemblyTypeName: Enemy2, Assembly-CSharp
-        m_MethodName: AttackPlayer
-        m_Mode: 2
+      - m_Target: {fileID: 371783821}
+        m_TargetAssemblyTypeName: CombatManager, Assembly-CSharp
+        m_MethodName: EndPlayerTurn
+        m_Mode: 1
         m_Arguments:
-          m_ObjectArgument: {fileID: 856024828}
-          m_ObjectArgumentAssemblyTypeName: PlayerEnergy, Assembly-CSharp
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -933,8 +1011,8 @@ MonoBehaviour:
   handPanel: {fileID: 1841328943}
   cardDeck:
   - {fileID: 11400000, guid: fa357d13b7713164483829f7c90758aa, type: 2}
-  - {fileID: 11400000, guid: fa357d13b7713164483829f7c90758aa, type: 2}
-  - {fileID: 11400000, guid: 8e89c48f30f286f4ab80ef72fe44dc20, type: 2}
+  - {fileID: 11400000, guid: fc4ab3ec111bbfd4cb6fb0049c1ba848, type: 2}
+  - {fileID: 11400000, guid: fc4ab3ec111bbfd4cb6fb0049c1ba848, type: 2}
   - {fileID: 11400000, guid: 8e89c48f30f286f4ab80ef72fe44dc20, type: 2}
   - {fileID: 11400000, guid: b98d86619edd3e04b83641b61dc03ce6, type: 2}
 --- !u!4 &1391854984
@@ -1742,7 +1820,14 @@ MonoBehaviour:
   isVulnerable: 0
   statusIconsPanel: {fileID: 1490510353}
   effectList: []
+  burn: {fileID: 11400000, guid: 3470d3f70f8594b4b8631090763b15a1, type: 2}
   damage: 10
+  isDefeated: 0
+  enemyName: 
+  burnTurns: 0
+  isBurned: 0
+  effectPrefab: {fileID: 3851423331324836370, guid: 4546d1bc21325214f97e667719bb3c63, type: 3}
+  effectParent: {fileID: 314006770}
 --- !u!4 &2105825885
 Transform:
   m_ObjectHideFlags: 0
@@ -1757,6 +1842,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2078161868}
+  - {fileID: 314006770}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1660057539 &9223372036854775807
@@ -1765,6 +1851,7 @@ SceneRoots:
   m_Roots:
   - {fileID: 1256144658}
   - {fileID: 1391854984}
+  - {fileID: 371783822}
   - {fileID: 1835190167}
   - {fileID: 33404283}
   - {fileID: 856024829}

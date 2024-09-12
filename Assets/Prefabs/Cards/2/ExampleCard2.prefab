@@ -97,6 +97,8 @@ MonoBehaviour:
   descriptionText: {fileID: 6661885828525531838}
   playButton: {fileID: -2476070191312443935}
   VulnerableEffect: {fileID: 11400000, guid: e5ec58d92b8b16b49b67e20c0f1eaa44, type: 2}
+  burnEffect: {fileID: 11400000, guid: 3470d3f70f8594b4b8631090763b15a1, type: 2}
+  areaAttackCard: 0
 --- !u!114 &-2476070191312443935
 MonoBehaviour:
   m_ObjectHideFlags: 0

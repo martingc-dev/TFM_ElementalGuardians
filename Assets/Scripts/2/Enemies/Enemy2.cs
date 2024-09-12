@@ -15,7 +15,10 @@ public class Enemy2 : MonoBehaviour
     public GameObject statusIconsPanel;  // Referencia al panel de iconos de efectos
     public List<Effects> effectList = new List<Effects>();   // Lista de efectos activos
 
-    private Dictionary<Effects.EffectType, GameObject> activeEffectsIcons = new Dictionary<Effects.EffectType, GameObject>();
+    [Header("Effects")]
+    public Effects burn;
+
+   
 
     //private GameObject currentVulnerableIcon; // Instancia del icono de vulnerabilidad
 
@@ -28,12 +31,17 @@ public class Enemy2 : MonoBehaviour
     public int burnTurns;
     public bool isBurned = false;
 
+    //Prefab de la UI que se muestra cuando un Biff es aplicado
+    public GameObject effectPrefab;
+    //Transform padre dodne los buff seran instanciados en la UI
+    public Transform effectParent;
+
 
     // Start is called before the first frame update
     void Start()
     {
         UpdateHealthUI();
-        UpdateStatusIcons();
+       
     }
 
     public virtual void AttackPlayer(PlayerEnergy player)
@@ -47,11 +55,8 @@ public class Enemy2 : MonoBehaviour
     {
         int damageAfterVulnerability = isVulnerable ? Mathf.RoundToInt(amount * 1.5f) : amount;
         health -= damageAfterVulnerability;
-        UpdateHealthUI();
-
-        // Después de recibir daño, resetear el estado de vulnerabilidad
-        effectList.RemoveAll(e => e.effectType == Effects.EffectType.Vulnerable);
-        UpdateStatusIcons();
+        UpdateHealthUI();        
+        
 
         if (health <= 0)
         {
@@ -64,7 +69,7 @@ public class Enemy2 : MonoBehaviour
     {
         isVulnerable = true;
         Debug.Log("Enemy is now vulnerable.");
-        UpdateStatusIcons();
+        
     }
 
     public void ApplyBurn(int damage, int turns)
@@ -90,12 +95,44 @@ public class Enemy2 : MonoBehaviour
     // Método para aplicar un efecto
     public void ApplyEffect(Effects effect)
     {
-        if (!effectList.Contains(effect))
+        
+        effectList.Add(effect);
+        DisplayEffectUI(effect, effect.initialDuration);
+    }
+
+    /// <summary>
+    /// LLamada al comienzo del turno del enemigo
+    /// </summary>
+    public void OnTurnStart()
+    {
+        ProcessEffects();
+    }
+
+    private void ProcessEffects()
+    {
+        List<Effects> effectToRemove = new List<Effects>();
+
+        foreach (Effects effect in effectList)
         {
-            effectList.Add(effect);
-            Debug.Log("Applied " + effect.effectType.ToString() + " effect.");
-            UpdateStatusIcons();
+            effect.OnTurnStart(this);
+
+            if (isBurned)
+            {
+                TakeDamage(effect.effectDamage);
+            }
+
+            if (effect.duration <= 0)
+            {
+                effectToRemove.Add(effect);
+            }
         }
+
+        foreach (Effects effect in effectToRemove)
+        {
+            effectList.Remove(effect);
+        }
+
+       
     }
 
     // Método para eliminar un efecto
@@ -105,35 +142,37 @@ public class Enemy2 : MonoBehaviour
         {
             effectList.Remove(effect);
             Debug.Log("Removed " + effect.effectType.ToString() + " effect.");
-            UpdateStatusIcons();
+            
         }
     }
 
-
-    // Método para actualizar los iconos de efectos en la UI
-    void UpdateStatusIcons()
+    public void DisplayEffectUI(Effects effects, int amount)
     {
-        // Limpiar iconos antiguos
-        foreach (Transform child in statusIconsPanel.transform)
+        Debug.Log("Displaying effect: " + effects.effectType);
+        if (effects == burn)
         {
-            Destroy(child.gameObject);
-        }
+            //if(burn.duration <= 0)
+            //{
+            //    burn.effectGO = Instantiate(effectPrefab, effectParent).GetComponent<EffectDisplay>();
+            //}
 
-        // Mostrar los iconos de efectos activos
-        foreach (Effects effect in effectList)
-        {
-            GameObject iconObject = new GameObject("EffectIcon");
-            Image iconImage = iconObject.AddComponent<Image>();
-            iconImage.sprite = effect.icon;
-            iconObject.transform.SetParent(statusIconsPanel.transform, false);
-
-            // Añadir a la lista de iconos activos
-            if (!activeEffectsIcons.ContainsKey(effect.effectType))
+            if (burn.effectGO == null)  // Asegúrate de que effectGO sea nulo antes de instanciarlo
             {
-                activeEffectsIcons.Add(effect.effectType, iconObject);
+                Debug.Log("Instantiating burn effect UI.");
+                burn.effectGO = Instantiate(effectPrefab, effectParent).GetComponent<EffectDisplay>();
+                burn.duration = 0;
+
+                
             }
+            
+            burn.duration += amount;
+            burn.effectGO.DisplayEffect(burn);
+            Debug.Log("Burn effect UI displayed with " + burn.duration + " turns remaining.");
         }
     }
+
+
+   
 
 
     // Actualizar la UI de la vida del enemigo
