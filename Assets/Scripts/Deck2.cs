@@ -95,7 +95,9 @@ public class Deck2 : MonoBehaviour
         {
             handsCards.Remove(card);
             discardPile.Add(card);
+            
         }
+        discardPileCountText.text = discardPile.Count.ToString();
     }
 
     /// <summary>
