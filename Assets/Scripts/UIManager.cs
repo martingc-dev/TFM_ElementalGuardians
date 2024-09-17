@@ -8,7 +8,7 @@ using UnityEngine.UI;
 public class UIManager : MonoBehaviour
 {
     //Referencia al BattleManager
-    public BattleManager battleManager;
+    public CombatManager battleManager;
     //Panel donde se muestran las cartas en la mano
     public Transform handPanel;
     //Prefab de la carta de la mano
@@ -45,7 +45,7 @@ public class UIManager : MonoBehaviour
         if (battleManager != null && battleManager.playerDeck != null)
         {
             // Añade las cartas actuales a la mano
-            foreach (Card card in battleManager.playerDeck.handsCards)
+            foreach (Cards card in battleManager.playerDeck.handsCards)
             {
                 if(card != null)
                 {
@@ -53,11 +53,11 @@ public class UIManager : MonoBehaviour
                     GameObject cardGO = Instantiate(cardPrefab, handPanel);
 
                     // Configura el prefab de carta con los datos de la carta
-                    CardUI cardUI = cardGO.GetComponent<CardUI>();
+                    CardDisplay cardUI = cardGO.GetComponent<CardDisplay>();
 
                     if (cardUI != null)
                     {
-                        cardUI.Setup(card);
+                        cardUI.DisplayCard(card);
                         Debug.Log($"Carta '{card.cardName}' añadida a la mano.");
                     }
                     else
@@ -86,7 +86,7 @@ public class UIManager : MonoBehaviour
     {
         if (energyText != null)
         {
-            energyText.text = $"Energía: {battleManager.currentEnergy}/{battleManager.maxEnergy}";
+            //energyText.text = $"Energía: {battleManager.currentEnergy}/{battleManager.maxEnergy}";
         }
         else
         {
@@ -100,23 +100,23 @@ public class UIManager : MonoBehaviour
     /// </summary>
     public void UpdateHealthUI()
     {
-        if (healthSlider != null && battleManager != null && battleManager.playerDeck != null)
-        {
-            Character playerCharacter = battleManager.playerDeck.GetPlayerCharacter();
-            if (playerCharacter != null)
-            {
-                healthSlider.maxValue = playerCharacter.GetMaxHealth();
-                healthSlider.value = playerCharacter.GetCurrentHealth();
-            }
-            else
-            {
-                Debug.LogWarning("PlayerCharacter no está asignado en BattleManager.");
-            }
-        }
-        else
-        {
-            Debug.LogWarning("healthSlider o battleManager no están asignados en UIManager.");
-        }
+        //if (healthSlider != null && battleManager != null && battleManager.playerDeck != null)
+        //{
+        //    //Character playerCharacter = battleManager.playerDeck.GetPlayerCharacter();
+        //    //if (playerCharacter != null)
+        //    //{
+        //    //    healthSlider.maxValue = playerCharacter.GetMaxHealth();
+        //    //    healthSlider.value = playerCharacter.GetCurrentHealth();
+        //    //}
+        //    else
+        //    {
+        //        Debug.LogWarning("PlayerCharacter no está asignado en BattleManager.");
+        //    }
+        //}
+        //else
+        //{
+        //    Debug.LogWarning("healthSlider o battleManager no están asignados en UIManager.");
+        //}
     }
 
 }

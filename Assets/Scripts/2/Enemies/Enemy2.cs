@@ -17,6 +17,7 @@ public class Enemy2 : MonoBehaviour
 
     [Header("Effects")]
     public Effects burn;
+    public Buff vulnerable;
 
    
 
@@ -47,6 +48,7 @@ public class Enemy2 : MonoBehaviour
     public virtual void AttackPlayer(PlayerEnergy player)
     {
         player.ReceiveDamage(damage);
+        EvaluateBuffAtTurnEnd();
     }
 
 
@@ -98,6 +100,33 @@ public class Enemy2 : MonoBehaviour
         
         effectList.Add(effect);
         DisplayEffectUI(effect, effect.initialDuration);
+    }
+
+    public void AddBuff(Buff.Type type, int amount)
+    {
+        if(type == Buff.Type.vulnerable)
+        {
+            if (vulnerable.buffValue <= 0)
+            {
+                vulnerable.buffGo = Instantiate(effectPrefab, effectParent).GetComponent<BuffUI>();
+                Debug.Log("Buff instaciado");
+            }
+            vulnerable.buffValue += amount;
+            vulnerable.buffGo.DisplayBuff(vulnerable);
+        }
+    }
+
+    public void EvaluateBuffAtTurnEnd()
+    {
+        if(vulnerable.buffValue > 0)
+        {
+            vulnerable.buffValue -= 1;
+            vulnerable.buffGo.DisplayBuff(vulnerable);
+            if(vulnerable.buffValue <= 0)
+            {
+                Destroy(vulnerable.buffGo.gameObject);
+            }
+        }
     }
 
     /// <summary>

@@ -17,6 +17,7 @@ public class CardDisplay : MonoBehaviour
     private Enemy2 enemy;         // Referencia al enemigo
     public Effects VulnerableEffect;
     public Effects burnEffect;
+    public Deck2 deck;
 
     public bool areaAttackCard = false;
 
@@ -25,6 +26,7 @@ public class CardDisplay : MonoBehaviour
         playerEnergy = FindObjectOfType<PlayerEnergy>(); // Encontrar el sistema de energía en la escena
         enemy = FindObjectOfType<Enemy2>();               // Encontrar al enemigo
         playButton.onClick.AddListener(PlayCard);        // Añadir el listener al botón
+        deck = FindObjectOfType<Deck2>();
     }
 
 
@@ -58,7 +60,8 @@ public class CardDisplay : MonoBehaviour
                     Debug.Log("Skill used.");
                     break;
                 case Cards.CardType.Vulnerable:
-                    enemy.ApplyEffect(VulnerableEffect);  // Aplicar el efecto de vulnerable
+                    //enemy.ApplyEffect(VulnerableEffect);  // Aplicar el efecto de vulnerable
+                    ApplyBuff(Buff.Type.vulnerable);
                     enemy.isVulnerable = true;
                     Debug.Log("Applied vulnerable to enemy.");
                     break;
@@ -71,14 +74,22 @@ public class CardDisplay : MonoBehaviour
                     break;
                 
             }
-
-            Destroy(gameObject); // Destruir la carta después de usarla
+            gameObject.SetActive(false);
+            deck.handsCards.Remove(cards);
+            deck.DiscardCard(cards);
+            // Destroy(gameObject); // Destruir la carta después de usarla
         }
         else
         {
             Debug.Log("Not enough energy to play this card.");
         }
     }
+
+    private void ApplyBuff(Buff.Type t)
+    {
+        enemy.AddBuff(t, cards.effectValue);
+    }
+    
 
     private void ApplyEffectUI(Effects.EffectType type)
     {

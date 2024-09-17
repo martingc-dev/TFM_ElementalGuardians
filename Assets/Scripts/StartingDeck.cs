@@ -5,5 +5,5 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Deck/Starting Deck")]
 public class StartingDeck : ScriptableObject
 {
-    public List<Card> cards; // Lista de cartas iniciales
+    public List<Cards> cards; // Lista de cartas iniciales
 }

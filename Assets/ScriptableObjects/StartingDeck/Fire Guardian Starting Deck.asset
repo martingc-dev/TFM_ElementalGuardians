@@ -13,13 +13,13 @@ MonoBehaviour:
   m_Name: Fire Guardian Starting Deck
   m_EditorClassIdentifier: 
   cards:
-  - {fileID: 11400000, guid: 77cd0142e461d564d9771f22ce3504e2, type: 2}
-  - {fileID: 11400000, guid: 77cd0142e461d564d9771f22ce3504e2, type: 2}
-  - {fileID: 11400000, guid: 77cd0142e461d564d9771f22ce3504e2, type: 2}
-  - {fileID: 11400000, guid: 77cd0142e461d564d9771f22ce3504e2, type: 2}
-  - {fileID: 11400000, guid: 77cd0142e461d564d9771f22ce3504e2, type: 2}
-  - {fileID: 11400000, guid: 77cd0142e461d564d9771f22ce3504e2, type: 2}
-  - {fileID: 11400000, guid: 77cd0142e461d564d9771f22ce3504e2, type: 2}
-  - {fileID: 11400000, guid: 77cd0142e461d564d9771f22ce3504e2, type: 2}
-  - {fileID: 11400000, guid: 77cd0142e461d564d9771f22ce3504e2, type: 2}
-  - {fileID: 11400000, guid: 77cd0142e461d564d9771f22ce3504e2, type: 2}
+  - {fileID: 11400000, guid: fa357d13b7713164483829f7c90758aa, type: 2}
+  - {fileID: 11400000, guid: fa357d13b7713164483829f7c90758aa, type: 2}
+  - {fileID: 11400000, guid: fa357d13b7713164483829f7c90758aa, type: 2}
+  - {fileID: 11400000, guid: 8e89c48f30f286f4ab80ef72fe44dc20, type: 2}
+  - {fileID: 11400000, guid: 8e89c48f30f286f4ab80ef72fe44dc20, type: 2}
+  - {fileID: 11400000, guid: 8e89c48f30f286f4ab80ef72fe44dc20, type: 2}
+  - {fileID: 11400000, guid: b98d86619edd3e04b83641b61dc03ce6, type: 2}
+  - {fileID: 11400000, guid: b98d86619edd3e04b83641b61dc03ce6, type: 2}
+  - {fileID: 11400000, guid: b98d86619edd3e04b83641b61dc03ce6, type: 2}
+  - {fileID: 11400000, guid: fc4ab3ec111bbfd4cb6fb0049c1ba848, type: 2}

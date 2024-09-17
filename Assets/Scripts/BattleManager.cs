@@ -43,7 +43,7 @@ public class BattleManager : MonoBehaviour
         if (startingDeck != null)
         {
             //Inicializa el mazo del jugador
-            playerDeck.InitializeDeck(startingDeck.cards); 
+            //playerDeck.InitializeDeck(startingDeck.cards); 
         }
         else
         {
